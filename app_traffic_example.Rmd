@@ -15,7 +15,7 @@ When I make great circle animations, at the core of the process is always an R f
 into multiple series of great circle arc segments.
 The goal is simple: plot a series of line segments, saving each plot as a subsequent still frame, rather than plotting the original entire arc as a single plot.
 The input is generally a data table (much faster to work with than a data frame if you have a lot of data) with longitude and latitude columns
-where the coordinates in row describe a subsequent point along one of my paths.
+where the coordinates in each row describe a subsequent point along one of my paths.
 I also use a third column to provide a unique group ID for each path to keep them distinct.
 
 Before getting to this process, here is some example code of how I formatted my data this way when using the `geosphere` package.
