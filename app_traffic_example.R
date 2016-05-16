@@ -48,7 +48,7 @@ df_segs <- function(d, seg.size, n.frames, replicates=1, direction="fixed"){
   n1 <- ceiling(diff(c((z[1] - z[2]), n))/z[1])
   if(n.frames - n1 < 100) stop("Insufficient frames")
   offset <- sample(0:(n.frames - n1), replicates)
-  
+
   f <- function(k, d, n, n1, z, offset){
     ind2 <- z[1]*k
     ind1 <- max(ind2 - z[2], 1)
@@ -58,13 +58,14 @@ df_segs <- function(d, seg.size, n.frames, replicates=1, direction="fixed"){
       group=ifelse(replicates==1, group, group + as.numeric(sprintf(".%d", k))),
       frameID=.x + k)) %>% bind_rows
   }
-  
+
   if(direction=="reverse") d <- mutate(d, long=rev(long), lat=rev(lat))
   if(direction=="random" && rnorm(1) < 0) d <- mutate(d, long=rev(long), lat=rev(lat))
   d <- purrr::map(1:n1, ~f(.x, d, n, n1, z, offset)) %>% bind_rows %>% arrange(group, frameID)
   d
 }
 
+# @knitr gc_segments_setup
 n.frames <- 900
 set.seed(1)
 paths2 <- mutate(paths2, group=group + max(paths1$group))
@@ -105,7 +106,7 @@ d.tiles <- mclapply(1:n.period,
       filter(inview) %>% dplyr::select(-inview) %>% mutate(frameID=i)
     },
   x=d.bath.agg, lat=lat_seq, lon=lon_seq, mc.cores=32)
-  
+
 z.range <- purrr::map(d.tiles, ~range(.x$z, na.rm=TRUE)) %>% unlist %>% range
 d.world <- purrr::map(1:n.period, ~mutate(world, frameID=.x))
 

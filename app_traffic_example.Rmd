@@ -90,6 +90,9 @@ You can make your own if this one does not generate the type of segments or prov
 Let's go with 900 frames, which will result in about a 30 second video.
 Recall that in my case I had two different data sets. I combine them at the end of the above code snippet.
 
+```{r gc_segments_setup}
+```
+
 Here I make the new table below. It has a subgroup ID column as well as a frame ID column.
 Group ID is now a decimal. To the left is the original great circle ID. To the right is the sequential segment ID.
 The latter is random and not all great circle arcs are broken up into the same number of segments.
