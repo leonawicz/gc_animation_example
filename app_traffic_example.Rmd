@@ -8,7 +8,7 @@ opts_chunk$set(cache=FALSE, eval=FALSE, tidy=TRUE, message=FALSE, warning=FALSE)
 read_chunk("app_traffic_example.R")
 ```
 
-Here I share <iframe style="float: right; padding-left: 10px; padding-right: 10px" width="560" height="315" src="https://www.youtube.com/watch?v=uQYR91qixgo" frameborder="0" allowfullscreen></iframe> R code I used to produce <a href="https://www.youtube.com/embed/uQYR91qixgo">animated great circle arcs</a> on top of a rotating 3D Earth.
+Here I share <iframe style="float: right; padding-left: 10px; padding-right: 10px" width="560" height="315" src="https://www.youtube.com/embed/uQYR91qixgo" frameborder="0" allowfullscreen></iframe> R code I used to produce <a href="https://www.youtube.com/watch?v=uQYR91qixgo">animated great circle arcs</a> on top of a rotating 3D Earth.
 The code is not entirely reproducible but you should be able to use what is shared here to create your own video frames given your unique data and computing environment and resources.
 
 When I make great circle animations, at the core of the process is always an R function that transforms a series of coordinates describing points along a great circle arc
