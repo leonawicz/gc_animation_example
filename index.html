@@ -343,10 +343,11 @@ r &lt;-<span class="st"> </span><span class="kw">raster</span>(<span class="kw">
 <span class="kw">projection</span>(r) &lt;-<span class="st"> &quot;+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs&quot;</span>
 r &lt;-<span class="st"> </span><span class="kw">setValues</span>(r, d.bath$z)</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">project_to_hemisphere &lt;-<span class="st"> </span>function(lat, long, lat0, long0) {
-    hold &lt;-<span class="st"> </span><span class="kw">c</span>(lat, long)
-    x &lt;-<span class="st"> </span>(pi/<span class="dv">180</span>) *<span class="st"> </span><span class="kw">c</span>(lat, lat0, long -<span class="st"> </span>long0)
-    inview &lt;-<span class="st"> </span><span class="kw">sin</span>(x[<span class="dv">1</span>]) *<span class="st"> </span><span class="kw">sin</span>(x[<span class="dv">2</span>]) +<span class="st"> </span><span class="kw">cos</span>(x[<span class="dv">1</span>]) *<span class="st"> </span><span class="kw">cos</span>(x[<span class="dv">2</span>]) *<span class="st"> </span><span class="kw">cos</span>(x[<span class="dv">3</span>]) &gt;<span class="st"> </span><span class="dv">0</span>
-    <span class="kw">data.table</span>(<span class="dt">long =</span> hold[<span class="dv">2</span>], <span class="dt">lat =</span> hold[<span class="dv">1</span>], <span class="dt">inview =</span> inview)
+    hold &lt;-<span class="st"> </span><span class="kw">cbind</span>(lat, long)
+    x &lt;-<span class="st"> </span>purrr::<span class="kw">map</span>(<span class="kw">list</span>(lat, lat0, long -<span class="st"> </span>long0), ~.x *<span class="st"> </span>pi/<span class="dv">180</span>)
+    inview &lt;-<span class="st"> </span><span class="kw">sin</span>(x[[<span class="dv">1</span>]]) *<span class="st"> </span><span class="kw">sin</span>(x[[<span class="dv">2</span>]]) +<span class="st"> </span><span class="kw">cos</span>(x[[<span class="dv">1</span>]]) *<span class="st"> </span><span class="kw">cos</span>(x[[<span class="dv">2</span>]]) *<span class="st"> </span><span class="kw">cos</span>(x[[<span class="dv">3</span>]]) &gt;<span class="st"> </span>
+<span class="st">        </span><span class="dv">0</span>
+    <span class="kw">data.table</span>(<span class="dt">long =</span> hold[, <span class="dv">2</span>], <span class="dt">lat =</span> hold[, <span class="dv">1</span>], <span class="dt">inview =</span> inview)
 }</code></pre></div>
 </div>
 <div id="prepare-for-plotting" class="section level3">
