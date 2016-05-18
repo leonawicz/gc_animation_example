@@ -107,16 +107,6 @@ code > span.in { color: #7f9f7f; font-weight: bold; } /* Information */
   }
 </style>
 
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-46129458-3', 'auto');
-  ga('send', 'pageview');
-
-</script>
 
 
 </head>
@@ -262,9 +252,9 @@ paths2 &lt;-<span class="st"> </span><span class="kw">get_paths</span>(p, idx2, 
 <span class="kw">library</span>(ggplot2)
 
 eb &lt;-<span class="st"> </span><span class="kw">element_blank</span>()
-theme_blank &lt;-<span class="st"> </span><span class="kw">theme</span>(<span class="dt">axis.line =</span> eb, <span class="dt">axis.text.x =</span> eb, <span class="dt">axis.text.y =</span> eb, <span class="dt">axis.ticks =</span> eb,
-    <span class="dt">axis.title.x =</span> eb, <span class="dt">axis.title.y =</span> eb, <span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>, <span class="dt">panel.background =</span> eb,
-    <span class="dt">panel.border =</span> eb, <span class="dt">panel.grid.major =</span> eb, <span class="dt">panel.grid.minor =</span> eb, <span class="dt">plot.background =</span> <span class="kw">element_rect</span>(<span class="dt">colour =</span> <span class="st">&quot;transparent&quot;</span>,
+theme_blank &lt;-<span class="st"> </span><span class="kw">theme</span>(<span class="dt">axis.line =</span> eb, <span class="dt">axis.text.x =</span> eb, <span class="dt">axis.text.y =</span> eb, <span class="dt">axis.ticks =</span> eb, 
+    <span class="dt">axis.title.x =</span> eb, <span class="dt">axis.title.y =</span> eb, <span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>, <span class="dt">panel.background =</span> eb, 
+    <span class="dt">panel.border =</span> eb, <span class="dt">panel.grid.major =</span> eb, <span class="dt">panel.grid.minor =</span> eb, <span class="dt">plot.background =</span> <span class="kw">element_rect</span>(<span class="dt">colour =</span> <span class="st">&quot;transparent&quot;</span>, 
         <span class="dt">fill =</span> <span class="st">&quot;transparent&quot;</span>))
 
 world &lt;-<span class="st"> </span><span class="kw">map_data</span>(<span class="st">&quot;world&quot;</span>)</code></pre></div>
@@ -277,32 +267,32 @@ world &lt;-<span class="st"> </span><span class="kw">map_data</span>(<span class
 <h4>The main function</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df_segs &lt;-<span class="st"> </span>function(d, seg.size, n.frames, <span class="dt">replicates =</span> <span class="dv">1</span>, <span class="dt">direction =</span> <span class="st">&quot;fixed&quot;</span>) {
     n &lt;-<span class="st"> </span><span class="kw">nrow</span>(d)
-    if (n &lt;<span class="st"> </span><span class="dv">3</span>)
+    if (n &lt;<span class="st"> </span><span class="dv">3</span>) 
         <span class="kw">stop</span>(<span class="st">&quot;Data not appropriate for this operation.&quot;</span>)
-    if (seg.size &lt;<span class="st"> </span><span class="dv">3</span>)
+    if (seg.size &lt;<span class="st"> </span><span class="dv">3</span>) 
         <span class="kw">stop</span>(<span class="st">&quot;Segment size too small.&quot;</span>)
     z &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="kw">runif</span>(<span class="dv">2</span>, <span class="dv">2</span>, seg.size))
     z[z &gt;<span class="st"> </span>n] &lt;-<span class="st"> </span>n
     n1 &lt;-<span class="st"> </span><span class="kw">ceiling</span>(<span class="kw">diff</span>(<span class="kw">c</span>((z[<span class="dv">1</span>] -<span class="st"> </span>z[<span class="dv">2</span>]), n))/z[<span class="dv">1</span>])
-    if (n.frames -<span class="st"> </span>n1 &lt;<span class="st"> </span><span class="dv">100</span>)
+    if (n.frames -<span class="st"> </span>n1 &lt;<span class="st"> </span><span class="dv">100</span>) 
         <span class="kw">stop</span>(<span class="st">&quot;Insufficient frames&quot;</span>)
     offset &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">0</span>:(n.frames -<span class="st"> </span>n1), replicates)
-
+    
     f &lt;-<span class="st"> </span>function(k, d, n, n1, z, offset) {
         ind2 &lt;-<span class="st"> </span>z[<span class="dv">1</span>] *<span class="st"> </span>k
         ind1 &lt;-<span class="st"> </span><span class="kw">max</span>(ind2 -<span class="st"> </span>z[<span class="dv">2</span>], <span class="dv">1</span>)
-        if (ind2 &gt;<span class="st"> </span>n)
+        if (ind2 &gt;<span class="st"> </span>n) 
             ind2 &lt;-<span class="st"> </span>n
         d &lt;-<span class="st"> </span><span class="kw">slice</span>(d, ind1:ind2)
-        purrr::<span class="kw">map</span>(offset, ~<span class="kw">mutate</span>(d, <span class="dt">group =</span> <span class="kw">ifelse</span>(replicates ==<span class="st"> </span><span class="dv">1</span>, group,
+        purrr::<span class="kw">map</span>(offset, ~<span class="kw">mutate</span>(d, <span class="dt">group =</span> <span class="kw">ifelse</span>(replicates ==<span class="st"> </span><span class="dv">1</span>, group, 
             group +<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">sprintf</span>(<span class="st">&quot;.%d&quot;</span>, k))), <span class="dt">frameID =</span> .x +<span class="st"> </span>k)) %&gt;%<span class="st"> </span>bind_rows
     }
-
-    if (direction ==<span class="st"> &quot;reverse&quot;</span>)
+    
+    if (direction ==<span class="st"> &quot;reverse&quot;</span>) 
         d &lt;-<span class="st"> </span><span class="kw">mutate</span>(d, <span class="dt">long =</span> <span class="kw">rev</span>(long), <span class="dt">lat =</span> <span class="kw">rev</span>(lat))
-    if (direction ==<span class="st"> &quot;random&quot;</span> &amp;&amp;<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">1</span>) &lt;<span class="st"> </span><span class="dv">0</span>)
+    if (direction ==<span class="st"> &quot;random&quot;</span> &amp;&amp;<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">1</span>) &lt;<span class="st"> </span><span class="dv">0</span>) 
         d &lt;-<span class="st"> </span><span class="kw">mutate</span>(d, <span class="dt">long =</span> <span class="kw">rev</span>(long), <span class="dt">lat =</span> <span class="kw">rev</span>(lat))
-    d &lt;-<span class="st"> </span>purrr::<span class="kw">map</span>(<span class="dv">1</span>:n1, ~<span class="kw">f</span>(.x, d, n, n1, z, offset)) %&gt;%<span class="st"> </span>bind_rows %&gt;%<span class="st"> </span><span class="kw">arrange</span>(group,
+    d &lt;-<span class="st"> </span>purrr::<span class="kw">map</span>(<span class="dv">1</span>:n1, ~<span class="kw">f</span>(.x, d, n, n1, z, offset)) %&gt;%<span class="st"> </span>bind_rows %&gt;%<span class="st"> </span><span class="kw">arrange</span>(group, 
         frameID)
     d
 }</code></pre></div>
@@ -315,10 +305,10 @@ world &lt;-<span class="st"> </span><span class="kw">map_data</span>(<span class
 paths2 &lt;-<span class="st"> </span><span class="kw">mutate</span>(paths2, <span class="dt">group =</span> group +<span class="st"> </span><span class="kw">max</span>(paths1$group))
 paths &lt;-<span class="st"> </span><span class="kw">bind_rows</span>(paths1, paths2) %&gt;%<span class="st"> </span><span class="kw">split</span>(.$group)</code></pre></div>
 <p>Here I make the new table below. It has a subgroup ID column as well as a frame ID column. Group ID is now a decimal. To the left is the original great circle ID. To the right is the sequential segment ID. The latter is random and not all great circle arcs are broken up into the same number of segments. Some cover more rows of the table than others. They do not match up with the frame IDs and some recycling may be required if the number of desired frames is large enough.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">paths &lt;-<span class="st"> </span><span class="kw">mclapply</span>(paths, df_segs, <span class="dt">seg.size =</span> <span class="dv">5</span>, <span class="dt">n.frames =</span> n.frames, <span class="dt">replicates =</span> <span class="dv">1</span>,
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">paths &lt;-<span class="st"> </span><span class="kw">mclapply</span>(paths, df_segs, <span class="dt">seg.size =</span> <span class="dv">5</span>, <span class="dt">n.frames =</span> n.frames, <span class="dt">replicates =</span> <span class="dv">1</span>, 
     <span class="dt">direction =</span> <span class="st">&quot;random&quot;</span>, <span class="dt">mc.cores =</span> <span class="dv">32</span>) %&gt;%<span class="st"> </span>bind_rows</code></pre></div>
 <p>Alternatively, code like this will perform the same operation without using parallel processing. This may not be terribly problematic if the data set is not too large. I show this for comparison. But the need for parallel will be much greater in later steps.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">paths &lt;-<span class="st"> </span>paths %&gt;%<span class="st"> </span><span class="kw">split</span>(.$group) %&gt;%<span class="st"> </span>purrr::<span class="kw">map</span>(~<span class="kw">df_segs</span>(.x, <span class="dv">5</span>, n.frames, <span class="dt">replicates =</span> <span class="dv">1</span>,
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">paths &lt;-<span class="st"> </span>paths %&gt;%<span class="st"> </span><span class="kw">split</span>(.$group) %&gt;%<span class="st"> </span>purrr::<span class="kw">map</span>(~<span class="kw">df_segs</span>(.x, <span class="dv">5</span>, n.frames, <span class="dt">replicates =</span> <span class="dv">1</span>, 
     <span class="dt">direction =</span> <span class="st">&quot;random&quot;</span>)) %&gt;%<span class="st"> </span>bind_rows</code></pre></div>
 </div>
 </div>
@@ -343,10 +333,11 @@ r &lt;-<span class="st"> </span><span class="kw">raster</span>(<span class="kw">
 <span class="kw">projection</span>(r) &lt;-<span class="st"> &quot;+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs&quot;</span>
 r &lt;-<span class="st"> </span><span class="kw">setValues</span>(r, d.bath$z)</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">project_to_hemisphere &lt;-<span class="st"> </span>function(lat, long, lat0, long0) {
-    hold &lt;-<span class="st"> </span><span class="kw">c</span>(lat, long)
-    x &lt;-<span class="st"> </span>(pi/<span class="dv">180</span>) *<span class="st"> </span><span class="kw">c</span>(lat, lat0, long -<span class="st"> </span>long0)
-    inview &lt;-<span class="st"> </span><span class="kw">sin</span>(x[<span class="dv">1</span>]) *<span class="st"> </span><span class="kw">sin</span>(x[<span class="dv">2</span>]) +<span class="st"> </span><span class="kw">cos</span>(x[<span class="dv">1</span>]) *<span class="st"> </span><span class="kw">cos</span>(x[<span class="dv">2</span>]) *<span class="st"> </span><span class="kw">cos</span>(x[<span class="dv">3</span>]) &gt;<span class="st"> </span><span class="dv">0</span>
-    <span class="kw">data.table</span>(<span class="dt">long =</span> hold[<span class="dv">2</span>], <span class="dt">lat =</span> hold[<span class="dv">1</span>], <span class="dt">inview =</span> inview)
+    hold &lt;-<span class="st"> </span><span class="kw">cbind</span>(lat, long)
+    x &lt;-<span class="st"> </span>purrr::<span class="kw">map</span>(<span class="kw">list</span>(lat, lat0, long -<span class="st"> </span>long0), ~.x *<span class="st"> </span>pi/<span class="dv">180</span>)
+    inview &lt;-<span class="st"> </span><span class="kw">sin</span>(x[[<span class="dv">1</span>]]) *<span class="st"> </span><span class="kw">sin</span>(x[[<span class="dv">2</span>]]) +<span class="st"> </span><span class="kw">cos</span>(x[[<span class="dv">1</span>]]) *<span class="st"> </span><span class="kw">cos</span>(x[[<span class="dv">2</span>]]) *<span class="st"> </span><span class="kw">cos</span>(x[[<span class="dv">3</span>]]) &gt;<span class="st"> </span>
+<span class="st">        </span><span class="dv">0</span>
+    <span class="kw">data.table</span>(<span class="dt">long =</span> hold[, <span class="dv">2</span>], <span class="dt">lat =</span> hold[, <span class="dv">1</span>], <span class="dt">inview =</span> inview)
 }</code></pre></div>
 </div>
 <div id="prepare-for-plotting" class="section level3">
@@ -361,7 +352,7 @@ r &lt;-<span class="st"> </span><span class="kw">setValues</span>(r, d.bath$z)</
 lon_seq &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">360</span>, <span class="dt">length.out =</span> n.period +<span class="st"> </span><span class="dv">1</span>)[-(n.period +<span class="st"> </span><span class="dv">1</span>)], <span class="dt">length =</span> n.frames)
 lat_seq &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">41</span>, <span class="kw">length</span>(lon_seq))
 paths &lt;-<span class="st"> </span>paths %&gt;%<span class="st"> </span><span class="kw">split</span>(.$frameID)
-d.bath.agg &lt;-<span class="st"> </span>r %&gt;%<span class="st"> </span><span class="kw">aggregate</span>(<span class="dv">2</span>) %&gt;%<span class="st"> </span>rasterToPoints %&gt;%<span class="st"> </span>data.table %&gt;%<span class="st"> </span><span class="kw">setnames</span>(<span class="kw">c</span>(<span class="st">&quot;long&quot;</span>,
+d.bath.agg &lt;-<span class="st"> </span>r %&gt;%<span class="st"> </span><span class="kw">aggregate</span>(<span class="dv">2</span>) %&gt;%<span class="st"> </span>rasterToPoints %&gt;%<span class="st"> </span>data.table %&gt;%<span class="st"> </span><span class="kw">setnames</span>(<span class="kw">c</span>(<span class="st">&quot;long&quot;</span>, 
     <span class="st">&quot;lat&quot;</span>, <span class="st">&quot;z&quot;</span>))</code></pre></div>
 <p>Next, in parallel across frames, I project my rasterized background map cells to the 3D surface and retain only the ones which are in view in a given frame as the earth spins. I use the full range of elevation data to retain a constant color palette mapping as cells at different extreme elevations move in and out of the field of view as the earth rotates. I store the range in <code>z.range</code>. I add a frame ID column. Finally I add a frame ID column for the nation boundaries table. The data is constant, but simply needs to be plotted 120 times in 3-degree shifts.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">d.tiles &lt;-<span class="st"> </span><span class="kw">mclapply</span>(<span class="dv">1</span>:n.period, function(i, x, lon, lat) {
@@ -382,31 +373,31 @@ d.world &lt;-<span class="st"> </span>purrr::<span class="kw">map</span>(<span c
 <div id="the-other-main-function" class="section level4">
 <h4>The other main function</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">save_maps &lt;-<span class="st"> </span>function(x, lon_seq, lat_seq, <span class="dt">col =</span> <span class="ot">NULL</span>, <span class="dt">type =</span> <span class="st">&quot;network&quot;</span>, <span class="dt">z.range =</span> <span class="ot">NULL</span>) {
-    if (<span class="kw">is.null</span>(col))
-        col &lt;-<span class="st"> </span>switch(type, <span class="dt">network =</span> <span class="kw">c</span>(<span class="st">&quot;#FFFFFF25&quot;</span>, <span class="st">&quot;#1E90FF25&quot;</span>, <span class="st">&quot;#FFFFFF&quot;</span>,
+    if (<span class="kw">is.null</span>(col)) 
+        col &lt;-<span class="st"> </span>switch(type, <span class="dt">network =</span> <span class="kw">c</span>(<span class="st">&quot;#FFFFFF25&quot;</span>, <span class="st">&quot;#1E90FF25&quot;</span>, <span class="st">&quot;#FFFFFF&quot;</span>, 
             <span class="st">&quot;#1E90FF50&quot;</span>), <span class="dt">maptiles =</span> <span class="kw">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;steelblue4&quot;</span>), <span class="dt">maplines =</span> <span class="st">&quot;white&quot;</span>)
     i &lt;-<span class="st"> </span>x$frameID[<span class="dv">1</span>]
-    if (type ==<span class="st"> &quot;network&quot;</span>)
+    if (type ==<span class="st"> &quot;network&quot;</span>) 
         x.lead &lt;-<span class="st"> </span><span class="kw">group_by</span>(x, group) %&gt;%<span class="st"> </span><span class="kw">slice</span>(<span class="kw">n</span>())
     g &lt;-<span class="st"> </span><span class="kw">ggplot</span>(x, <span class="kw">aes</span>(long, lat))
     if (type ==<span class="st"> &quot;maptiles&quot;</span>) {
-        if (<span class="kw">is.null</span>(z.range))
+        if (<span class="kw">is.null</span>(z.range)) 
             z.range &lt;-<span class="st"> </span><span class="kw">range</span>(x$z, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)
-        g &lt;-<span class="st"> </span><span class="kw">ggplot</span>(x, <span class="kw">aes</span>(long, lat, <span class="dt">fill =</span> z)) +<span class="st"> </span><span class="kw">geom_tile</span>() +<span class="st"> </span><span class="kw">scale_fill_gradientn</span>(<span class="dt">colors =</span> col,
+        g &lt;-<span class="st"> </span><span class="kw">ggplot</span>(x, <span class="kw">aes</span>(long, lat, <span class="dt">fill =</span> z)) +<span class="st"> </span><span class="kw">geom_tile</span>() +<span class="st"> </span><span class="kw">scale_fill_gradientn</span>(<span class="dt">colors =</span> col, 
             <span class="dt">limits =</span> z.range)
     } else {
         g &lt;-<span class="st"> </span><span class="kw">ggplot</span>(x, <span class="kw">aes</span>(long, lat, <span class="dt">group =</span> group))
-        if (type ==<span class="st"> &quot;maplines&quot;</span>)
+        if (type ==<span class="st"> &quot;maplines&quot;</span>) 
             g &lt;-<span class="st"> </span>g +<span class="st"> </span><span class="kw">geom_path</span>(<span class="dt">colour =</span> col)
-        if (type ==<span class="st"> &quot;network&quot;</span>)
+        if (type ==<span class="st"> &quot;network&quot;</span>) 
             g &lt;-<span class="st"> </span>g +<span class="st"> </span><span class="kw">geom_path</span>(<span class="dt">colour =</span> col[<span class="dv">2</span>]) +<span class="st"> </span><span class="kw">geom_path</span>(<span class="dt">colour =</span> col[<span class="dv">1</span>]) +<span class="st"> </span>
-<span class="st">                </span><span class="kw">geom_point</span>(<span class="dt">data =</span> x.lead, <span class="dt">colour =</span> col[<span class="dv">3</span>], <span class="dt">size =</span> <span class="fl">0.6</span>) +<span class="st"> </span><span class="kw">geom_point</span>(<span class="dt">data =</span> x.lead,
+<span class="st">                </span><span class="kw">geom_point</span>(<span class="dt">data =</span> x.lead, <span class="dt">colour =</span> col[<span class="dv">3</span>], <span class="dt">size =</span> <span class="fl">0.6</span>) +<span class="st"> </span><span class="kw">geom_point</span>(<span class="dt">data =</span> x.lead, 
                 <span class="dt">colour =</span> col[<span class="dv">4</span>], <span class="dt">size =</span> <span class="fl">0.3</span>)
     }
-    g &lt;-<span class="st"> </span>g +<span class="st"> </span>theme_blank +<span class="st"> </span><span class="kw">coord_map</span>(<span class="st">&quot;ortho&quot;</span>, <span class="dt">orientation =</span> <span class="kw">c</span>(lat_seq[i], lon_seq[i],
+    g &lt;-<span class="st"> </span>g +<span class="st"> </span>theme_blank +<span class="st"> </span><span class="kw">coord_map</span>(<span class="st">&quot;ortho&quot;</span>, <span class="dt">orientation =</span> <span class="kw">c</span>(lat_seq[i], lon_seq[i], 
         <span class="fl">23.4</span>))
     <span class="kw">dir.create</span>(outDir &lt;-<span class="st"> </span><span class="kw">file.path</span>(<span class="st">&quot;frames&quot;</span>, type), <span class="dt">recursive =</span> <span class="ot">TRUE</span>, <span class="dt">showWarnings =</span> <span class="ot">FALSE</span>)
-    <span class="kw">png</span>(<span class="kw">sprintf</span>(<span class="kw">paste0</span>(outDir, <span class="st">&quot;/&quot;</span>, type, <span class="st">&quot;_%03d.png&quot;</span>), i), <span class="dt">width =</span> <span class="dv">4</span> *<span class="st"> </span><span class="dv">1920</span>,
+    <span class="kw">png</span>(<span class="kw">sprintf</span>(<span class="kw">paste0</span>(outDir, <span class="st">&quot;/&quot;</span>, type, <span class="st">&quot;_%03d.png&quot;</span>), i), <span class="dt">width =</span> <span class="dv">4</span> *<span class="st"> </span><span class="dv">1920</span>, 
         <span class="dt">height =</span> <span class="dv">4</span> *<span class="st"> </span><span class="dv">1080</span>, <span class="dt">res =</span> <span class="dv">300</span>, <span class="dt">bg =</span> <span class="st">&quot;transparent&quot;</span>)
     <span class="kw">print</span>(g)
     <span class="kw">dev.off</span>()
@@ -415,7 +406,7 @@ d.world &lt;-<span class="st"> </span>purrr::<span class="kw">map</span>(<span c
 
 <span class="kw">mclapply</span>(paths, save_maps, lon_seq, lat_seq, <span class="dt">type =</span> <span class="st">&quot;network&quot;</span>, <span class="dt">mc.cores =</span> <span class="dv">30</span>)
 <span class="kw">mclapply</span>(d.world, save_maps, lon_seq, lat_seq, <span class="dt">type =</span> <span class="st">&quot;maplines&quot;</span>, <span class="dt">mc.cores =</span> <span class="dv">30</span>)
-<span class="kw">mclapply</span>(d.tiles, save_maps, lon_seq, lat_seq, <span class="dt">type =</span> <span class="st">&quot;maptiles&quot;</span>, <span class="dt">z.range =</span> z.range,
+<span class="kw">mclapply</span>(d.tiles, save_maps, lon_seq, lat_seq, <span class="dt">type =</span> <span class="st">&quot;maptiles&quot;</span>, <span class="dt">z.range =</span> z.range, 
     <span class="dt">mc.cores =</span> <span class="dv">30</span>)</code></pre></div>
 </div>
 </div>
@@ -436,12 +427,12 @@ d.world &lt;-<span class="st"> </span>purrr::<span class="kw">map</span>(<span c
 <script>
   // manage active state of menu based on current page
   $(document).ready(function () {
-
+  
     // active menu
     href = window.location.pathname
     href = href.substr(href.lastIndexOf('/') + 1)
     $('a[href="' + href + '"]').parent().addClass('active');
-
+    
     // manage active menu header
     if (href.startsWith('authoring_'))
       $('a[href="' + 'authoring' + '"]').parent().addClass('active');
@@ -449,7 +440,7 @@ d.world &lt;-<span class="st"> </span>purrr::<span class="kw">map</span>(<span c
       $('a[href="' + 'formats' + '"]').parent().addClass('active');
     else if (href.startsWith('developer_'))
       $('a[href="' + 'developer' + '"]').parent().addClass('active');
-
+	  
   });
 </script>
 

@@ -86,10 +86,10 @@ r <- setValues(r, d.bath$z)
 
 # @knitr hemisphere
 project_to_hemisphere <- function(lat, long, lat0, long0){
-    hold <- c(lat, long)
-    x <- (pi/180)*c(lat, lat0, long-long0)
-    inview <- sin(x[1])*sin(x[2]) + cos(x[1])*cos(x[2])*cos(x[3]) > 0
-    data.table(long=hold[2], lat=hold[1], inview=inview)
+  hold <- cbind(lat, long)
+  x <- purrr::map(list(lat, lat0, long-long0), ~.x*pi/180)
+  inview <- sin(x[[1]])*sin(x[[2]]) + cos(x[[1]])*cos(x[[2]])*cos(x[[3]]) > 0
+  data.table(long=hold[,2], lat=hold[,1], inview=inview)
 }
 
 # @knitr plot_setup1
