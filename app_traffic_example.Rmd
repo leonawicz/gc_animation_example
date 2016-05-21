@@ -35,7 +35,7 @@ I marked the row indices for these two locations.
 `get_paths` uses `gcIntermediate` from the `geosphere` package to obtain vectors of points defining great circle arcs between my two locations and all others.
 The resulting data frame has columns, `long`, `lat`, and `group`.
 I do not break the arcs at the dateline because I intend to draw them on a 3D globe, but if I were making a flat map I would do so.
-This is why the function handles the case of list output from `gcIntermediate` and adjusts the group ID by add 0.5 to one group.
+This is why the function handles the case of list output from `gcIntermediate` and adjusts the group ID by adding 0.5 to one group.
 
 Already more than enough details. You can see what I am going for though.
 Given my data, I want to end up with columns of longitude and latitude defining great circle arcs and broken out by unique group IDs.
@@ -63,7 +63,7 @@ It's not clear yet, but the reason for including the `raster` package is because
 This is also an aside. It doesn't have anything to do with the great circle animation.
 
 Yes, I am using R's built-in `parallel` package.
-I happen to be do at least the parallelized operations in this project on a Linux server with 32 CPUs and 260 GB RAM.
+I happen to be doing at least the parallelized operations in this project on a Linux server with 32 CPUs and 260 GB RAM.
 I'm sorry to say but I can't help you if you want to do this on a local Windows pc for example.
 If you rework the code for a much more restrictive environment, depending on your data, you may find yourself waiting forever for your output.
 I just do not recommend doing this type of thing outside of a beefy server environment, at least if time is something you value.
@@ -88,15 +88,16 @@ This is just one example function.
 You can make your own if this one does not generate the type of segments or provide the kind of random variation in segments you would like.
 
 Let's go with 900 frames, which will result in about a 30 second video.
-Recall that in my case I had two different data sets. I combine them at the end of the above code snippet.
+Recall that in my case I had two different data sets. I combine them below.
 
 ```{r gc_segments_setup}
 ```
 
-Here I make the new table below. It has a subgroup ID column as well as a frame ID column.
+Next I make the new table. It has a subgroup ID column as well as a frame ID column.
 Group ID is now a decimal. To the left is the original great circle ID. To the right is the sequential segment ID.
-The latter is random and not all great circle arcs are broken up into the same number of segments.
-Some cover more rows of the table than others. They do not match up with the frame IDs and some recycling may be required if the number of desired frames is large enough.
+The segment sequence is semi-random. Not all great circle arcs are broken up into the same number of segments.
+Some cover more rows of the table than others. As a result, they are not intended to match up with frame IDs.
+Some recycling may be required if the number of desired frames is large enough.
 
 ```{r make_segs}
 ```
